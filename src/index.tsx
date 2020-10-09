@@ -112,6 +112,7 @@ export const LitePicker = React.forwardRef<Litepicker, LitePickerProps>(
           lp.destroy()
         }
       }
+      return () => {}
     })
 
     return (
