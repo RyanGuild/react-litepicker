@@ -43,6 +43,7 @@ export interface LitePickerProps {
   anyBookedDaysAsCheckout?: boolean
   highlightedDaysFormat?: string
   highlightedDays?: DateOrRangeArray
+  moduleRanges?: boolean | Object
   dropdowns?: {
     minYear?: number
     maxYear?: number
@@ -99,7 +100,7 @@ export const LitePicker = React.forwardRef<LPType, LitePickerProps>(
           buttonText: {
             apply: applyString || 'Apply',
             cancel: cancelString || 'Cancel',
-            previousMonth: prevString || 'Prev',
+            previousMonth: prevString || 'Previous',
             nextMontth: nextString || 'Next',
             reset: resetString || 'Reset'
           }
