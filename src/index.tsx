@@ -1,4 +1,4 @@
-import Litepicker from 'litepicker'
+import Litepicker from 'litepicker/dist/js/main.nocss'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 
