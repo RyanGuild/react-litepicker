@@ -90,25 +90,27 @@ export const LitePicker = React.forwardRef<Litepicker, LitePickerProps>(
     } = useStringAndPortal(options.ResetButton)
 
     React.useEffect(() => {
-      const lp = new Litepicker({
-        ...options,
-        element: rootElm,
-        resetBtnCallback: options.onReset,
-        buttonText: {
-          apply: applyString,
-          cancel: cancelString,
-          previousMonth: prevString,
-          nextMonth: nextString,
-          reset: resetString
-        }
-      })
-      if (typeof ref === 'function') ref(lp)
-      else if (ref?.current) ref.current = lp
+      if (rootElm) {
+        const lp = new Litepicker({
+          ...options,
+          element: rootElm,
+          resetBtnCallback: options.onReset,
+          buttonText: {
+            apply: applyString,
+            cancel: cancelString,
+            previousMonth: prevString,
+            nextMonth: nextString,
+            reset: resetString
+          }
+        })
+        if (typeof ref === 'function') ref(lp)
+        else if (ref?.current) ref.current = lp
 
-      return () => {
-        if (typeof ref === 'function') ref(null)
-        else if (ref?.current) ref.current = null
-        lp.destroy()
+        return () => {
+          if (typeof ref === 'function') ref(null)
+          else if (ref?.current) ref.current = null
+          lp.destroy()
+        }
       }
     })
 
