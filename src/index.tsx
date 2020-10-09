@@ -1,3 +1,4 @@
+import LPType from 'litepicker'
 import Litepicker from 'litepicker/dist/js/main.nocss'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
@@ -67,7 +68,7 @@ export interface LitePickerProps {
   children?: [JSX.Element, JSX.Element | undefined]
 }
 
-export const LitePicker = React.forwardRef<Litepicker, LitePickerProps>(
+export const LitePicker = React.forwardRef<LPType, LitePickerProps>(
   (options: LitePickerProps, ref) => {
     const [rootElm, setRootElm] = React.useState<HTMLDivElement | null>(null)
     const {
