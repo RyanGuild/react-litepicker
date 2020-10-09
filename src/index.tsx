@@ -66,7 +66,7 @@ export interface LitePickerProps {
   onChangeYear?: (date: Date, idx: number) => void
   onDayHover?: (date: Date, attributes: string[]) => void
   onShowTooltip?: () => void
-  children?: [JSX.Element, JSX.Element | undefined]
+  children?: React.ForwardRefExoticComponent<any>
 }
 
 export const LitePicker = React.forwardRef<LPType, LitePickerProps>(
@@ -98,11 +98,11 @@ export const LitePicker = React.forwardRef<LPType, LitePickerProps>(
           element: rootElm,
           resetBtnCallback: options.onReset,
           buttonText: {
-            apply: applyString || 'Apply',
-            cancel: cancelString || 'Cancel',
-            previousMonth: prevString || 'Previous',
-            nextMontth: nextString || 'Next',
-            reset: resetString || 'Reset'
+            ...(applyString ? { apply: applyString } : {}),
+            ...(cancelString ? { cancel: cancelString } : {}),
+            ...(prevString ? { previousMonth: prevString } : {}),
+            ...(nextString ? { nextMonth: nextString } : {}),
+            ...(resetString ? { reset: resetString } : {})
           }
         })
         if (typeof ref === 'function') ref(lp)
