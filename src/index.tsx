@@ -67,7 +67,7 @@ export interface LitePickerProps {
   children?: [JSX.Element, JSX.Element | undefined]
 }
 
-export const LightPicker = React.forwardRef<Litepicker, LitePickerProps>(
+export const LitePicker = React.forwardRef<Litepicker, LitePickerProps>(
   (options: LitePickerProps, ref) => {
     const [rootElm, setRootElm] = React.useState<HTMLDivElement | null>(null)
     const {
@@ -128,7 +128,7 @@ export const LightPicker = React.forwardRef<Litepicker, LitePickerProps>(
 type DomRenderable = boolean | string | number | null | undefined
 
 let PortalCount = 0
-const idState = () => `react-lightpicker-portal-wrapper-${PortalCount++}`
+const idState = () => `react-LitePicker-portal-wrapper-${PortalCount++}`
 
 function useStringAndPortal(
   node: React.ReactNode
