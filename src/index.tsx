@@ -96,11 +96,11 @@ export const LitePicker = React.forwardRef<Litepicker, LitePickerProps>(
           element: rootElm,
           resetBtnCallback: options.onReset,
           buttonText: {
-            apply: applyString,
-            cancel: cancelString,
-            previousMonth: prevString,
-            nextMonth: nextString,
-            reset: resetString
+            ...(applyString ? { apply: applyString } : {}),
+            ...(cancelString ? { cancel: cancelString } : {}),
+            ...(prevString ? { previousMonth: prevString } : {}),
+            ...(nextString ? { nextMonth: nextString } : {}),
+            ...(resetString ? { reset: resetString } : {})
           }
         })
         if (typeof ref === 'function') ref(lp)
