@@ -1,6 +1,10 @@
-import LPType from 'litepicker'
-import Litepicker from 'litepicker/dist/js/main.nocss'
+// @ts-ignore
+// eslint-disable-next-line no-unused-vars
+import LitePicker from 'litepicker'
+// @ts-ignore
+import NoCssLitePicker from 'litepicker/dist/js/main.nocss'
 import * as React from 'react'
+import { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 export type DateExp = Date | number | String
@@ -8,6 +12,8 @@ export type DateRange = [DateExp, DateExp]
 export type DateOrRangeArray = Array<DateRange | DateExp>
 
 export interface LitePickerProps {
+  rootElement?: React.ForwardRefExoticComponent<any>
+  endRootElement?: React.ForwardRefExoticComponent<any>
   firstDay?: number
   format?: string
   lang?: string
@@ -66,12 +72,14 @@ export interface LitePickerProps {
   onChangeYear?: (date: Date, idx: number) => void
   onDayHover?: (date: Date, attributes: string[]) => void
   onShowTooltip?: () => void
+  noCss?: boolean
   children?: React.ForwardRefExoticComponent<any>
 }
 
-export const LitePicker = React.forwardRef<LPType, LitePickerProps>(
+const LP = React.forwardRef<typeof LitePicker, LitePickerProps>(
   (options: LitePickerProps, ref) => {
-    const [rootElm, setRootElm] = React.useState<HTMLDivElement | null>(null)
+    const [rootElm, setRootElm] = useState<HTMLDivElement | null>(null)
+    const [rootEndElm, setEndRootElm] = useState<HTMLDivElement | null>(null)
     const {
       string: applyString,
       getPortal: getApplyPortal
@@ -93,9 +101,10 @@ export const LitePicker = React.forwardRef<LPType, LitePickerProps>(
 
     React.useEffect(() => {
       if (rootElm) {
-        const lp = new Litepicker({
+        const lp = new NoCssLitePicker({
           ...options,
           element: rootElm,
+          endElement: rootEndElm,
           resetBtnCallback: options.onReset,
           buttonText: {
             ...(applyString ? { apply: applyString } : {}),
@@ -116,15 +125,27 @@ export const LitePicker = React.forwardRef<LPType, LitePickerProps>(
       }
       return () => {}
     })
+    const {
+      rootElement: Root,
+      children: Child,
+      endRootElement: EndRoot
+    } = options
 
     return (
       <div>
-        <div ref={setRootElm} />
+        {Root ? (
+          <Root ref={setRootElm} />
+        ) : Child ? (
+          <Child ref={setRootElm} />
+        ) : (
+          <div ref={setRootElm} />
+        )}
         {getApplyPortal ? getApplyPortal() : null}
         {getCancelPortal ? getCancelPortal() : null}
         {getPrevPortal ? getPrevPortal() : null}
         {getNextPortal ? getNextPortal() : null}
         {getResetPortal ? getResetPortal() : null}
+        {EndRoot ? <EndRoot ref={setEndRootElm} /> : null}
       </div>
     )
   }
@@ -157,3 +178,5 @@ function useStringAndPortal(
     }
   }, [id, node])
 }
+
+export default LP
