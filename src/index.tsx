@@ -1,17 +1,14 @@
-// @ts-ignore
-// eslint-disable-next-line no-unused-vars
 import LitePicker from 'litepicker'
-// @ts-ignore
-import NoCssLitePicker from 'litepicker/dist/js/main.nocss'
 import * as React from 'react'
 import { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 export type DateExp = Date | number | String
 export type DateRange = [DateExp, DateExp]
-export type DateOrRangeArray = Array<DateRange | DateExp>
+export interface RangeArray extends Array<DateRange> {}
+export interface DateArray extends Array<DateExp> {}
 
-export interface LitePickerProps {
+interface LitePickerBaseProps {
   rootElement?: React.ForwardRefExoticComponent<any>
   endRootElement?: React.ForwardRefExoticComponent<any>
   firstDay?: number
@@ -39,16 +36,13 @@ export interface LitePickerProps {
   autoRefresh?: boolean
   moveByOneMonth?: boolean
   lockDaysFormat?: string
-  lockDays?: DateOrRangeArray
   disallowLockDaysInRange?: boolean
   lockDaysInclusivity?: string
   bookedDaysFormat?: string
-  bookedDays?: DateOrRangeArray
   disallowBookedDaysInRange?: boolean
   bookedDaysInclusivity?: string
   anyBookedDaysAsCheckout?: boolean
   highlightedDaysFormat?: string
-  highlightedDays?: DateOrRangeArray
   moduleRanges?: boolean | Object
   dropdowns?: {
     minYear?: number
@@ -76,7 +70,20 @@ export interface LitePickerProps {
   children?: React.ForwardRefExoticComponent<any>
 }
 
-const LP = React.forwardRef<typeof LitePicker, LitePickerProps>(
+interface LitePickerPropsWithRanges {
+  moduleRanges: Object
+  lockDays?: RangeArray
+  bookedDays?: RangeArray
+}
+interface LitePickerPropsWithoutRanges {
+  moduleRanges: undefined
+  lockDays?: DateArray
+  highlightedDays?: DateArray
+}
+export type LitePickerProps = LitePickerBaseProps &
+  (LitePickerPropsWithRanges | LitePickerPropsWithoutRanges)
+
+const LP = React.forwardRef<LitePicker, LitePickerProps>(
   (options: LitePickerProps, ref) => {
     const [rootElm, setRootElm] = useState<HTMLDivElement | null>(null)
     const [rootEndElm, setEndRootElm] = useState<HTMLDivElement | null>(null)
@@ -101,7 +108,7 @@ const LP = React.forwardRef<typeof LitePicker, LitePickerProps>(
 
     React.useEffect(() => {
       if (rootElm) {
-        const lp = new NoCssLitePicker({
+        const lp = new LitePicker({
           ...options,
           element: rootElm,
           endElement: rootEndElm,
