@@ -1,6 +1,6 @@
 import LitePicker from 'litepicker'
+import NoCssLP from 'litepicker/dist/js/main.nocss'
 import * as React from 'react'
-import { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 export type DateExp = Date | number | String
@@ -9,8 +9,8 @@ export interface RangeArray extends Array<DateRange> {}
 export interface DateArray extends Array<DateExp> {}
 
 export interface LitePickerBaseProps {
-  rootElement?: React.ForwardRefExoticComponent<any>
-  endRootElement?: React.ForwardRefExoticComponent<any>
+  rootElement?: React.MutableRefObject<HTMLElement>
+  endRootElement?: React.MutableRefObject<HTMLElement>
   firstDay?: number
   format?: string
   lang?: string
@@ -85,8 +85,6 @@ export type LitePickerProps = LitePickerBaseProps &
 
 const LP = React.forwardRef<typeof LitePicker, LitePickerProps>(
   (options: LitePickerProps, ref) => {
-    const [rootElm, setRootElm] = useState<HTMLDivElement | null>(null)
-    const [rootEndElm, setEndRootElm] = useState<HTMLDivElement | null>(null)
     const {
       string: applyString,
       getPortal: getApplyPortal
@@ -106,12 +104,17 @@ const LP = React.forwardRef<typeof LitePicker, LitePickerProps>(
       getPortal: getResetPortal
     } = useStringAndPortal(options.ResetButton)
 
+    const element = options.rootElement?.current
+    const endElement = options.endRootElement?.current
+    const noCss = options.noCss
+
     React.useEffect(() => {
-      if (rootElm) {
-        const lp = new LitePicker({
+      if (element) {
+        const LP = noCss ? NoCssLP : LitePicker
+        const lp = new LP({
           ...options,
-          element: rootElm,
-          endElement: rootEndElm,
+          element,
+          endElement,
           resetBtnCallback: options.onReset,
           buttonText: {
             ...(applyString ? { apply: applyString } : {}),
@@ -131,28 +134,15 @@ const LP = React.forwardRef<typeof LitePicker, LitePickerProps>(
         }
       }
       return () => {}
-    })
-    const {
-      rootElement: Root,
-      children: Child,
-      endRootElement: EndRoot
-    } = options
+    }, [element, endElement])
 
     return (
       <div>
-        {Root ? (
-          <Root ref={setRootElm} />
-        ) : Child ? (
-          <Child ref={setRootElm} />
-        ) : (
-          <div ref={setRootElm} />
-        )}
         {getApplyPortal ? getApplyPortal() : null}
         {getCancelPortal ? getCancelPortal() : null}
         {getPrevPortal ? getPrevPortal() : null}
         {getNextPortal ? getNextPortal() : null}
         {getResetPortal ? getResetPortal() : null}
-        {EndRoot ? <EndRoot ref={setEndRootElm} /> : null}
       </div>
     )
   }
