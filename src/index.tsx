@@ -112,8 +112,8 @@ const LP = React.forwardRef<typeof LitePicker, LitePickerProps>(
 
     React.useEffect(() => {
       if (element) {
-        const LP = noCss ? NoCssLP : LitePicker
-        const lp = new LP({
+        const LitePickConstructor = noCss ? NoCssLP : LitePicker
+        const lp = new LitePickConstructor({
           ...options,
           element,
           endElement,
