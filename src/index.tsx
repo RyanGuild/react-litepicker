@@ -8,6 +8,8 @@ export type DateRange = [DateExp, DateExp]
 export interface RangeArray extends Array<DateRange> {}
 export interface DateArray extends Array<DateExp> {}
 
+export type LitePickerType = typeof LitePicker
+
 export interface LitePickerBaseProps {
   rootElement?: React.RefObject<HTMLElement | null | undefined>
   endRootElement?: React.RefObject<HTMLElement | null | undefined>
