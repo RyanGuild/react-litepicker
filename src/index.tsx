@@ -9,8 +9,8 @@ export interface RangeArray extends Array<DateRange> {}
 export interface DateArray extends Array<DateExp> {}
 
 export interface LitePickerBaseProps {
-  rootElement?: React.MutableRefObject<HTMLElement>
-  endRootElement?: React.MutableRefObject<HTMLElement>
+  rootElement?: React.RefObject<HTMLElement>
+  endRootElement?: React.RefObject<HTMLElement>
   firstDay?: number
   format?: string
   lang?: string
@@ -134,7 +134,16 @@ const LP = React.forwardRef<typeof LitePicker, LitePickerProps>(
         }
       }
       return () => {}
-    }, [element, endElement])
+    }, [
+      element,
+      endElement,
+      noCss,
+      applyString,
+      cancelString,
+      prevString,
+      nextString,
+      resetString
+    ])
 
     return (
       <div>
