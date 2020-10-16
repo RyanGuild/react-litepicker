@@ -153,13 +153,13 @@ const LP = React.forwardRef<typeof LitePicker, LitePickerProps>(
     ])
 
     return (
-      <div>
+      <>
         {getApplyPortal ? getApplyPortal() : null}
         {getCancelPortal ? getCancelPortal() : null}
         {getPrevPortal ? getPrevPortal() : null}
         {getNextPortal ? getNextPortal() : null}
         {getResetPortal ? getResetPortal() : null}
-      </div>
+      </>
     )
   }
 )
