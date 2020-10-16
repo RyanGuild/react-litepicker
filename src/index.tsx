@@ -8,7 +8,7 @@ export type DateRange = [DateExp, DateExp]
 export interface RangeArray extends Array<DateRange> {}
 export interface DateArray extends Array<DateExp> {}
 
-interface LitePickerBaseProps {
+export interface LitePickerBaseProps {
   rootElement?: React.ForwardRefExoticComponent<any>
   endRootElement?: React.ForwardRefExoticComponent<any>
   firstDay?: number
@@ -70,12 +70,12 @@ interface LitePickerBaseProps {
   children?: React.ForwardRefExoticComponent<any>
 }
 
-interface LitePickerPropsWithRanges {
+export interface LitePickerPropsWithRanges {
   moduleRanges: Object
   lockDays?: RangeArray
   bookedDays?: RangeArray
 }
-interface LitePickerPropsWithoutRanges {
+export interface LitePickerPropsWithoutRanges {
   moduleRanges: undefined
   lockDays?: DateArray
   highlightedDays?: DateArray
@@ -83,7 +83,7 @@ interface LitePickerPropsWithoutRanges {
 export type LitePickerProps = LitePickerBaseProps &
   (LitePickerPropsWithRanges | LitePickerPropsWithoutRanges)
 
-const LP = React.forwardRef<LitePicker, LitePickerProps>(
+const LP = React.forwardRef<typeof LitePicker, LitePickerProps>(
   (options: LitePickerProps, ref) => {
     const [rootElm, setRootElm] = useState<HTMLDivElement | null>(null)
     const [rootEndElm, setEndRootElm] = useState<HTMLDivElement | null>(null)
