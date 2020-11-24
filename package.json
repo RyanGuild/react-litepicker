@@ -1,10 +1,10 @@
 {
   "name": "react-litepicker",
   "version": "1.2.5",
-  "description": "react wrapper of lightpicker",
+  "description": "react wrapper of litepicker",
   "author": "RyanGuild",
   "license": "MIT",
-  "repository": "RyanGuild/react-lightpick",
+  "repository": "RyanGuild/react-litepicker",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
